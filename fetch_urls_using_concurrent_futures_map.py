@@ -33,16 +33,8 @@ if __name__ == '__main__':
     with Executor(max_workers=10) as pool:
 
         start = time.time()
-        for u in urls:
-            result = pool.submit(fetch_url_status, u)
-            work.append(result)
-
-        while work:
-            for w in work:
-                if w.done():
-                    stats.append(w.result())
-                work.remove(w)
-
+        result = pool.map(fetch_url_status, urls)
+    
     end = time.time()
 
     print(f"Total time taken: {end - start} seconds")
